@@ -25,5 +25,5 @@ A modular, data-driven framework for single-player roguelike deckbuilders.
 - Unity 2022/2023+, 2D (URP optional)
 - Open `Assets/_Project/Scenes/Battle.unity`
 
-## License
-MIT
+
+© 2025 Selim Celem. All Rights Reserved. This framework is proprietary and under active development.
