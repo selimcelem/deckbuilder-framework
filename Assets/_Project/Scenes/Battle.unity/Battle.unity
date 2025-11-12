@@ -192,6 +192,8 @@ GameObject:
   m_Component:
   - component: {fileID: 261264956}
   - component: {fileID: 261264957}
+  - component: {fileID: 261264959}
+  - component: {fileID: 261264958}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -226,6 +228,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8237de6eddd68f4aa9fbc307a75812a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &261264958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261264955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59db17242510c4bbef705407c9a61b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPlayer: {fileID: 261264959}
+  testCard: {fileID: 11400000, guid: abc7352f0fa943a428e752fa4d88ed8f, type: 2}
+--- !u!114 &261264959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261264955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7149875452cfb4c985f11bee5c2eae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 78112746}
+  enemy: {fileID: 897342402}
 --- !u!1 &897342399
 GameObject:
   m_ObjectHideFlags: 0

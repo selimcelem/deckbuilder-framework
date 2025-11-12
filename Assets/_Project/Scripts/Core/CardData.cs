@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DB.Effects;
 
 namespace DB.Cards
 {
     public enum CardType { Attack, Skill, Power, Utility }
     public enum TargetType { None, Self, SingleEnemy, AllEnemies }
+    public enum Rarity { Common, Uncommon, Rare, Epic }
 
     [CreateAssetMenu(menuName = "DB/Card")]
     public class CardData : ScriptableObject
@@ -14,10 +16,8 @@ namespace DB.Cards
         public int cost = 1;
         public CardType cardType = CardType.Skill;
         public TargetType target = TargetType.SingleEnemy;
-        public List<DB.Effects.EffectData> effects;
+        public List<EffectData> effects;
         [TextArea] public string description;
-        public DB.Cards.Rarity rarity = Rarity.Common;
+        public Rarity rarity = Rarity.Common;
     }
-
-    public enum Rarity { Common, Uncommon, Rare, Epic }
 }
