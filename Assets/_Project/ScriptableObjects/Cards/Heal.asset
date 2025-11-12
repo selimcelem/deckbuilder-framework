@@ -17,6 +17,7 @@ MonoBehaviour:
   cost: 1
   cardType: 1
   target: 1
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: e92d6e30e26e98149a2068d75b3e893d, type: 2}
   description: Heal 3 HP.
   rarity: 0
