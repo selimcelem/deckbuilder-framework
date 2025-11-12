@@ -1,0 +1,17 @@
+# --- Tell GitHub Linguist to ignore Unity non-code files ---
+
+# Ignore YAML / meta / asset files
+*.meta linguist-detectable=false
+*.unity linguist-detectable=false
+*.asset linguist-detectable=false
+*.prefab linguist-detectable=false
+*.mat linguist-detectable=false
+*.anim linguist-detectable=false
+
+# Ignore text data folders
+Assets/_Project/ScriptableObjects/* linguist-detectable=false
+Assets/_Project/Art/* linguist-detectable=false
+Assets/_Project/Audio/* linguist-detectable=false
+
+# Force C# weighting
+*.cs linguist-language=C#
