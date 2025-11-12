@@ -1,6 +1,6 @@
 # --- Unity Linguist Configuration ---
 
-# Ignore Unity's internal YAML-based files
+# Ignore Unity YAML-based files
 *.meta linguist-detectable=false
 *.unity linguist-detectable=false
 *.asset linguist-detectable=false
@@ -9,22 +9,24 @@
 *.anim linguist-detectable=false
 *.controller linguist-detectable=false
 *.overrideController linguist-detectable=false
+*.shadergraph linguist-detectable=false
+*.physicMaterial linguist-detectable=false
 
-# Ignore whole Unity config / package folders
+# Ignore Unity config and package folders
 ProjectSettings/** linguist-detectable=false
 Packages/** linguist-detectable=false
 Library/** linguist-detectable=false
 Logs/** linguist-detectable=false
 UserSettings/** linguist-detectable=false
 
-# Ignore generated art/audio/scriptable folders
+# Ignore non-code assets
 Assets/_Project/Art/** linguist-detectable=false
 Assets/_Project/Audio/** linguist-detectable=false
 Assets/_Project/ScriptableObjects/** linguist-detectable=false
 
-# Treat all C# files as C#
+# Force C# recognition
 *.cs linguist-language=C#
 
-# Optional: ignore Markdown and text docs
+# Ignore docs and misc
 *.md linguist-detectable=false
 *.txt linguist-detectable=false
