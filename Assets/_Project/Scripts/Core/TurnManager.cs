@@ -1,18 +1,45 @@
 using UnityEngine;
+using DB.Core;
+using DB.Statuses;
+using DB.Effects;
 
 namespace DB.Battle
 {
-    public enum BattlePhase { PlayerTurn, EnemyTurn, Resolving }
+    public enum BattlePhase { PlayerTurn, EnemyTurn }
 
     public class TurnManager : MonoBehaviour
     {
         public BattlePhase Phase { get; private set; } = BattlePhase.PlayerTurn;
 
+        public Entity player;
+        public Entity enemy;
+
         public void EndPlayerTurn()
         {
-            // TODO: tick statuses, apply end-of-turn effects, then switch phase
+            Debug.Log("End Player Turn");
+            player.statusManager.TickStatuses(TickTiming.EndOfTurn);
+            enemy.statusManager.TickStatuses(TickTiming.EndOfTurn);
+
             Phase = BattlePhase.EnemyTurn;
-            // TODO: enemy acts, then back to player
+            EnemyTurn();
+        }
+
+        private void EnemyTurn()
+        {
+            Debug.Log("Enemy Turn");
+            // Simple enemy attack simulation
+            EffectProcessor.ExecuteEffect(
+                new Effects.EffectData { type = Effects.EffectType.Damage, value = 5 },
+                enemy,
+                player
+            );
+
+            // Tick statuses for enemy turn
+            player.statusManager.TickStatuses(TickTiming.StartOfTurn);
+            enemy.statusManager.TickStatuses(TickTiming.StartOfTurn);
+
+            Phase = BattlePhase.PlayerTurn;
+            Debug.Log("Back to Player Turn");
         }
     }
 }
