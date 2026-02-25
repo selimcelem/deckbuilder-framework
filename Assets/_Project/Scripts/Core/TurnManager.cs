@@ -28,11 +28,8 @@ namespace DB.Battle
         {
             Debug.Log("Enemy Turn");
             // Simple enemy attack simulation
-            EffectProcessor.ExecuteEffect(
-                new Effects.EffectData { type = Effects.EffectType.Damage, value = 5 },
-                enemy,
-                player
-            );
+            // TEMP: simple enemy action
+            player.TakeDamage(5);
 
             // Tick statuses for enemy turn
             player.statusManager.TickStatuses(TickTiming.StartOfTurn);
