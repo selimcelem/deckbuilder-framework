@@ -1,6 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using DB.Core;
 using DB.Cards;
+using DB.UI;
 
 namespace DB.Battle
 {
@@ -11,6 +12,7 @@ namespace DB.Battle
         public DeckManager deckManager;
         public CardPlayer cardPlayer;
         public ManaSystem manaSystem;
+        public HandUI ui;
 
         [Header("Rules")]
         public int cardsPerTurn = 5;
@@ -36,16 +38,21 @@ namespace DB.Battle
         {
             manaSystem.ResetMana();
             deckManager.Draw(cardsPerTurn);
+
+            // refresh AFTER state changes
+            if (ui != null) ui.ForceRefresh();
         }
 
         public void EndPlayerTurn()
         {
             deckManager.DiscardHand();
-            turnManager.EndPlayerTurn(); // enemy acts inside TurnManager for now
-            StartPlayerTurn();
+
+            turnManager.EndPlayerTurn(); // enemy acts
+
+            StartPlayerTurn(); // this will refresh UI
         }
 
-        // Temporary: play by index from hand (replace with UI clicks soon)
+        // Temporary: play by index from hand
         public void PlayCardFromHand(int handIndex)
         {
             var hand = deckManager.Hand;
@@ -62,6 +69,9 @@ namespace DB.Battle
             manaSystem.Spend(card.cost);
             cardPlayer.PlayCard(card);
             deckManager.DiscardCardFromHand(card);
+
+            // refresh AFTER card removed from hand
+            if (ui != null) ui.ForceRefresh();
         }
     }
 }
