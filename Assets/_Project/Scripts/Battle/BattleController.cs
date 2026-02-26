@@ -13,6 +13,9 @@ namespace DB.Battle
         public CardPlayer cardPlayer;
         public ManaSystem manaSystem;
         public HandUI ui;
+        public BlockChargeManager playerBlockCharges;
+        public BlockMinigameController blockMinigame;
+        public GameObject handRoot; // drag your HandPanel or the parent UI for hand
 
         [Header("Rules")]
         public int cardsPerTurn = 5;
@@ -50,6 +53,45 @@ namespace DB.Battle
             turnManager.EndPlayerTurn(); // enemy acts
 
             StartPlayerTurn(); // this will refresh UI
+        }
+
+        public void ResolveEnemyAttack(int damage)
+        {
+            if (playerBlockCharges != null && playerBlockCharges.Charges > 0 && blockMinigame != null)
+            {
+                if (handRoot) handRoot.SetActive(false);
+
+                blockMinigame.StartMinigame(outcome =>
+                {
+                    if (handRoot) handRoot.SetActive(true);
+
+                    switch (outcome)
+                    {
+                        case BlockOutcome.Miss:
+                            turnManager.player.TakeDamage(damage);
+                            break;
+
+                        case BlockOutcome.Block:
+                            // no damage
+                            break;
+
+                        case BlockOutcome.Perfect:
+                            // no damage + reflect 50%
+                            turnManager.enemy.TakeDamage(Mathf.CeilToInt(damage * 0.5f));
+                            break;
+                    }
+
+                    // decay AFTER enemy turn, regardless of outcome
+                    playerBlockCharges.DecayAfterEnemyTurn();
+                });
+
+                return;
+            }
+
+            // no charges -> normal hit
+            turnManager.player.TakeDamage(damage);
+
+            // still decay if you had charges? (no, because you didn't)
         }
 
         // Temporary: play by index from hand

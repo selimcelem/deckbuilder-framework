@@ -13,6 +13,7 @@ namespace DB.Battle
 
         public Entity player;
         public Entity enemy;
+        public BattleController battleController;
 
         public void EndPlayerTurn()
         {
@@ -29,7 +30,7 @@ namespace DB.Battle
             Debug.Log("Enemy Turn");
             // Simple enemy attack simulation
             // TEMP: simple enemy action
-            player.TakeDamage(5);
+            battleController.ResolveEnemyAttack(5);
 
             // Tick statuses for enemy turn
             player.statusManager.TickStatuses(TickTiming.StartOfTurn);

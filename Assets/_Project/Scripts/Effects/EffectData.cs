@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DB.Effects
 {
-    public enum EffectType { Damage, Heal, GainBlock, Draw, GainMana, ApplyStatus }
+    public enum EffectType { Damage, Heal, GainBlock, GainBlockCharge, Draw, GainMana, ApplyStatus }
 
     [CreateAssetMenu(menuName = "DB/Effect")]
     public class EffectData : ScriptableObject

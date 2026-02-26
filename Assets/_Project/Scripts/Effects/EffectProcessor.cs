@@ -34,6 +34,18 @@ namespace DB.Effects
                     if (effect.status != null)
                         target.statusManager.AddStatus(effect.status, effect.value);
                     break;
+
+                case EffectType.GainBlockCharge:
+                    {
+                        var bcm = caster.GetComponent<DB.Battle.BlockChargeManager>();
+                        if (bcm == null)
+                        {
+                            Debug.LogError("GainBlockCharge: caster has no BlockChargeManager component.");
+                            break;
+                        }
+                        bcm.AddCharges(effect.value);
+                        break;
+                    }
             }
         }
     }
