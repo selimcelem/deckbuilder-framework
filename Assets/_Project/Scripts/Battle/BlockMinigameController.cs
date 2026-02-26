@@ -26,9 +26,14 @@ namespace DB.Battle
         private bool running;
         private Vector2 vel;
         private Action<BlockOutcome> onDone;
+        private BlockOutcome pendingOutcome;
+        private bool finishing;
 
         public void StartMinigame(Action<BlockOutcome> onDone)
         {
+            CancelInvoke();     // stop any pending Close() calls
+            finishing = false;  // reset safety flag
+
             this.onDone = onDone;
             panel.SetActive(true);
             running = false;
@@ -129,16 +134,26 @@ namespace DB.Battle
 
         private void Finish(BlockOutcome outcome, string text)
         {
-            running = false;
-            message.text = text;
-            Invoke(nameof(Close), 0.6f);
+            if (finishing) return;
+            finishing = true;
 
-            void Close()
-            {
-                panel.SetActive(false);
-                message.text = "";
-                onDone?.Invoke(outcome);
-            }
+            running = false;
+            pendingOutcome = outcome;
+
+            if (message) message.text = text;
+
+            Invoke(nameof(Close), 0.6f);
+        }
+
+        private void Close()
+        {
+            finishing = false;
+
+            if (panel) panel.SetActive(false);
+            if (message) message.text = "";
+
+            onDone?.Invoke(pendingOutcome);
+            onDone = null;
         }
     }
 }

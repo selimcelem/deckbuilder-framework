@@ -12,7 +12,7 @@ namespace DB.UI
         private void Update()
         {
             if (!charges || !text) return;
-            text.text = charges.Charges > 0 ? $"🛡 {charges.Charges}" : "";
+            text.text = charges.Charges > 0 ? $"BLOCK: {charges.Charges}" : "";
         }
     }
 }
