@@ -68,7 +68,7 @@ namespace DB.Battle
 
             manaSystem.Spend(card.cost);
             cardPlayer.PlayCard(card);
-            deckManager.DiscardCardFromHand(card);
+            deckManager.DiscardCardFromHandAt(handIndex);
 
             // refresh AFTER card removed from hand
             if (ui != null) ui.ForceRefresh();

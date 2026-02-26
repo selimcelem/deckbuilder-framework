@@ -53,13 +53,15 @@ namespace DB.Cards
         {
             discardPile.AddRange(hand);
             hand.Clear();
-            Debug.Log($"Discarded hand. Hand={hand.Count} Draw={drawPile.Count} Discard={discardPile.Count}");
         }
 
-        public void DiscardCardFromHand(CardData card)
+        public void DiscardCardFromHandAt(int handIndex)
         {
-            if (hand.Remove(card))
-                discardPile.Add(card);
+            if (handIndex < 0 || handIndex >= hand.Count) return;
+
+            CardData card = hand[handIndex];
+            hand.RemoveAt(handIndex);
+            discardPile.Add(card);
         }
 
         private void ReshuffleDiscardIntoDraw()
