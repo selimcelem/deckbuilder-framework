@@ -244,6 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battle: {fileID: 1549536477}
   deck: {fileID: 1549536480}
+  mana: {fileID: 1549536479}
   handPanel: {fileID: 1553658665}
   endTurnButton: {fileID: 475292809}
   manaText: {fileID: 145664354}

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using DB.Battle;
 using DB.Cards;
+using DB.Core;
 
 namespace DB.UI
 {
@@ -12,6 +13,7 @@ namespace DB.UI
         [Header("References")]
         public BattleController battle;
         public DeckManager deck;
+        public ManaSystem mana;
 
         [Header("UI")]
         public Transform handPanel;
@@ -32,6 +34,12 @@ namespace DB.UI
                 endTurnButton.onClick.AddListener(() => battle.EndPlayerTurn());
 
             StartCoroutine(DelayedInit());
+        }
+
+        private void Update()
+        {
+            if (manaText != null && mana != null)
+                manaText.text = $"Mana: {mana.currentMana}/{mana.maxMana}";
         }
 
         private System.Collections.IEnumerator DelayedInit()
