@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using TMPro;
 using DB.Battle;
 using DB.Cards;
-using DB.Core;
 
 namespace DB.UI
 {
@@ -13,7 +12,6 @@ namespace DB.UI
         [Header("References")]
         public BattleController battle;
         public DeckManager deck;
-        public ManaSystem mana;
 
         [Header("UI")]
         public Transform handPanel;
@@ -21,13 +19,16 @@ namespace DB.UI
         public TMP_Text manaText;
 
         [Header("Prefabs")]
-        public Button cardButtonPrefab;
+        public GameObject cardPrefab; // CardView prefab root
 
-        private readonly List<Button> spawned = new();
+        [Header("Layout")]
+        public HandFanLayout handFanLayout; // drag the HandPanel's HandFanLayout here
+
+        private readonly List<GameObject> spawned = new();
 
         private void Start()
         {
-            if (endTurnButton != null)
+            if (endTurnButton != null && battle != null)
                 endTurnButton.onClick.AddListener(() => battle.EndPlayerTurn());
 
             StartCoroutine(DelayedInit());
@@ -41,23 +42,21 @@ namespace DB.UI
 
         private void RefreshAll()
         {
-            if (manaText != null && mana != null)
-                manaText.text = $"Mana: {mana.currentMana}/{mana.maxMana}";
 
             RefreshHand();
-            
+
             if (deck != null)
                 Debug.Log("RefreshHand running. Hand count = " + deck.Hand.Count);
         }
 
         private void RefreshHand()
         {
-            if (deck == null || handPanel == null || cardButtonPrefab == null || battle == null)
+            if (deck == null || handPanel == null || cardPrefab == null || battle == null)
                 return;
 
-            // Clear old buttons
-            foreach (var b in spawned)
-                if (b != null) Destroy(b.gameObject);
+            // Clear old cards
+            foreach (var go in spawned)
+                if (go != null) Destroy(go);
 
             spawned.Clear();
 
@@ -68,20 +67,43 @@ namespace DB.UI
                 int index = i;
                 CardData card = hand[i];
 
-                Button btn = Instantiate(cardButtonPrefab, handPanel);
-                Debug.Log("Spawned button for: " + card.cardName);
-                var tmp = btn.GetComponentInChildren<TMP_Text>();
+                // Spawn CardView root
+                GameObject go = Instantiate(cardPrefab, handPanel);
+                spawned.Add(go);
+
+                RectTransform cardRoot = go.transform as RectTransform;
+
+                // Find the Button (HitArea) inside prefab
+                Button btn = go.GetComponentInChildren<Button>(true);
+                if (btn == null)
+                {
+                    Debug.LogError("Card prefab is missing a Button (expected on HitArea).");
+                    continue;
+                }
+
+                // Update visible text (adapt if you have specific fields)
+                TMP_Text tmp = go.GetComponentInChildren<TMP_Text>(true);
                 if (tmp != null)
                     tmp.text = $"{card.cardName} ({card.cost})";
 
+                // Click
                 btn.onClick.AddListener(() =>
                 {
                     Debug.Log("CARD CLICKED: " + card.cardName);
                     battle.PlayCardFromHand(index);
                 });
-                Debug.Log("Listener added for index " + index);
-                spawned.Add(btn);
+
+                // Hover (HitArea drives hover, but we lift the root)
+                if (handFanLayout != null && cardRoot != null)
+                {
+                    var hover = btn.gameObject.GetComponent<CardHover>();
+                    if (!hover) hover = btn.gameObject.AddComponent<CardHover>();
+                }
             }
+
+            // Optional: force a layout pass immediately
+            if (handFanLayout != null)
+                handFanLayout.Layout();
         }
 
         public void ForceRefresh()

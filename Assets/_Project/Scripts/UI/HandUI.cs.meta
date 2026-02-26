@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: bf467f6f03f51b749bb9163510be885b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - battle: {instanceID: 0}
+  - deck: {instanceID: 0}
+  - mana: {instanceID: 0}
+  - handPanel: {instanceID: 0}
+  - endTurnButton: {instanceID: 0}
+  - manaText: {instanceID: 0}
+  - cardButtonPrefab: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
